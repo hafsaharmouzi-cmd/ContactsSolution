@@ -1,12 +1,12 @@
-﻿using ContactsBusinessLayer;
-using ContactsDataAccessLayer;
-using System;
+﻿using System;
 using System.Data;
+using ContactsDataAccessLayer;
+
 
 
 namespace ContactBusinessLayer
 {
-    internal class clsCountry
+    public class clsCountry
     {
         public enum enMode { AddNew = 0, Update = 1 };
         public enMode Mode = enMode.AddNew;
@@ -18,11 +18,13 @@ namespace ContactBusinessLayer
         {
             this.ID = -1;
             this.Name = "";
+            Mode = enMode.AddNew;
         }
         private clsCountry(int ID , string Name)
         {
             this.ID=ID;
             this.Name=Name;
+            Mode = enMode.Update;
         }
 
         public static clsCountry Find(int ID)

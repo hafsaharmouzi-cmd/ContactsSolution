@@ -192,7 +192,7 @@ namespace ContactsDataAccessLayer
 
             SqlCommand command = new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("@ContactID", ID);
+            command.Parameters.AddWithValue("@CountryID", ID);
 
             try
             {
@@ -203,7 +203,7 @@ namespace ContactsDataAccessLayer
             }
             catch (Exception ex)
             {
-                // Console.WriteLine("Error: " + ex.Message);
+                //  Console.WriteLine("Error: " + ex.Message);
             }
             finally
             {
@@ -221,7 +221,7 @@ namespace ContactsDataAccessLayer
 
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
-            string query = "SELECT found=1 FROM Contacts WHERE CountryID = @CountryID";
+            string query = "SELECT found=1 FROM Countries WHERE CountryID = @CountryID";
 
             SqlCommand command = new SqlCommand(query, connection);
 
@@ -252,7 +252,7 @@ namespace ContactsDataAccessLayer
 
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
-            string query = "SELECT found=1 FROM Contacts WHERE CountryName = @CountryName";
+            string query = "SELECT found=1 FROM Countries WHERE CountryName = @CountryName";
 
             SqlCommand command = new SqlCommand(query, connection);
 
