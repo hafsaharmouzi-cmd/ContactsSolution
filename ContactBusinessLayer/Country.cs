@@ -14,16 +14,24 @@ namespace ContactBusinessLayer
         public int ID { set; get; }
         public string Name { set; get; }
 
+        public string Code { set; get; }  
+
+        public string PhoneCode { set; get; }
+
         public clsCountry() 
         {
             this.ID = -1;
             this.Name = "";
+            this.Code = "";
+            this.PhoneCode = "";
             Mode = enMode.AddNew;
         }
-        private clsCountry(int ID , string Name)
+        private clsCountry(int ID , string Name,string Code,string PhoneCode)
         {
             this.ID=ID;
             this.Name=Name;
+            this.Code=Code;
+            this.PhoneCode=PhoneCode;
             Mode = enMode.Update;
         }
 
@@ -31,10 +39,12 @@ namespace ContactBusinessLayer
         {
 
             string Name = "";
+            string Code = "";
+            string PhoneCode = "";
             
-            if (clsCountryDataAcess.GetCountryByID(ID,ref Name))
+            if (clsCountryDataAcess.GetCountryByID(ID,ref Name,ref Code , ref PhoneCode))
 
-                return new clsCountry(ID,Name);
+                return new clsCountry(ID,Name,Code,PhoneCode);
             else
                 return null;
 
@@ -42,8 +52,10 @@ namespace ContactBusinessLayer
         public static clsCountry FindByName(string Name)
         {
             int ID = -1;
-            if (clsCountryDataAcess.GetCountryByName(Name, ref ID))
-                return new clsCountry(ID, Name);
+            string Code = "";
+            string PhoneCode = "";
+            if (clsCountryDataAcess.GetCountryByName(Name, ref ID,ref Code, ref PhoneCode))
+                return new clsCountry(ID, Name,Code,PhoneCode);
             else
                 return null;
         }
@@ -62,7 +74,7 @@ namespace ContactBusinessLayer
         {
             //call DataAccess Layer 
 
-            this.ID = clsCountryDataAcess.AddNewCountry(this.Name);
+            this.ID = clsCountryDataAcess.AddNewCountry(this.Name , this.Code, this.PhoneCode);
             return (this.ID != -1);
         }
 
@@ -70,7 +82,7 @@ namespace ContactBusinessLayer
         {
             //call DataAccess Layer 
 
-            return clsCountryDataAcess.UpdateCountry(this.ID,this.Name);
+            return clsCountryDataAcess.UpdateCountry(this.ID,this.Name,this.Code , this.PhoneCode);
         }
         public static bool DeleteCountry(int ID)
         {

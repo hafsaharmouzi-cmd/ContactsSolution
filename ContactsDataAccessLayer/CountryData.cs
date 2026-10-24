@@ -7,7 +7,7 @@ namespace ContactsDataAccessLayer
 {
     public class clsCountryDataAcess
     {
-        public static bool GetCountryByID(int ID, ref string CountryName)
+        public static bool GetCountryByID(int ID, ref string CountryName, ref string Code , ref string PhoneCode)
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
@@ -29,6 +29,9 @@ namespace ContactsDataAccessLayer
                     isFound = true;
 
                     CountryName = (string)reader["CountryName"];
+                    Code = reader["Code"] == DBNull.Value? "": (string)reader["Code"];
+                    PhoneCode = reader["PhoneCode"] == DBNull.Value ? "" : (string)reader["PhoneCode"];
+
 
                 }
                 else
@@ -54,7 +57,7 @@ namespace ContactsDataAccessLayer
             return isFound;
 
         }
-        public static bool GetCountryByName(string CountryName, ref int ID)
+        public static bool GetCountryByName(string CountryName, ref int ID, ref string Code, ref string PhoneCode)
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
@@ -76,6 +79,8 @@ namespace ContactsDataAccessLayer
                     isFound = true;
 
                     ID = (int)reader["CountryID"];
+                    Code = reader["Code"] == DBNull.Value ? "" : (string)reader["Code"];
+                    PhoneCode = reader["PhoneCode"] == DBNull.Value ? "" : (string)reader["PhoneCode"];
 
                 }
                 else
@@ -102,18 +107,20 @@ namespace ContactsDataAccessLayer
 
         }
 
-        public static int AddNewCountry(string CountryName)
+        public static int AddNewCountry(string CountryName,string Code , string PhoneCode)
         {
             //this function will return the new contact id if succeeded and -1 if not.
 
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
-            string query = @"INSERT INTO Countries (CountryName)
-                             VALUES (@CountryName)
+            string query = @"INSERT INTO Countries (CountryName,Code,PhoneCode)
+                             VALUES (@CountryName,@Code ,@PhoneCode)
                              SELECT SCOPE_IDENTITY();";
 
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@CountryName", CountryName);
+            command.Parameters.AddWithValue("@Code", Code);
+            command.Parameters.AddWithValue("@PhoneCode", PhoneCode);
             try
             {
                 connection.Open();
@@ -145,19 +152,24 @@ namespace ContactsDataAccessLayer
             return -1;
         }
 
-        public static bool UpdateCountry(int ID ,  string CountryName)
+        public static bool UpdateCountry(int ID ,  string CountryName, string Code, string PhoneCode)
+
         {
 
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = @"UPDATE Countries 
-                             SET CountryName = @CountryName
-                             WHERE CountryID = @CountryID;";
+                             SET CountryName = @CountryName,
+                                 Code = @Code ,
+                                  PhoneCode = @PhoneCode
+                             WHERE CountryID = @CountryID ;";
 
             SqlCommand command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@CountryName", CountryName);
+            command.Parameters.AddWithValue("@Code", Code);
+            command.Parameters.AddWithValue("@PhoneCode", PhoneCode);
             command.Parameters.AddWithValue("@CountryID", ID);
           
             try
