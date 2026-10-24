@@ -49,7 +49,6 @@ namespace ContactsConsolApp
             }
 
         }
-
         static void testUpdateContact(int ID)
 
         {
@@ -79,7 +78,6 @@ namespace ContactsConsolApp
                 Console.WriteLine("Not found!");
             }
         }
-
         static void testDeleteContact(int ID)
         {
             if(clsContact.isContactExist(ID))
@@ -124,7 +122,7 @@ namespace ContactsConsolApp
 
         }
 
-
+        // TEST function for Country
         static void testFindCountryByID(int ID)
         {
 
@@ -133,6 +131,8 @@ namespace ContactsConsolApp
             if (Country != null)
             {
                 Console.WriteLine("Country Name : " + Country.Name);
+                Console.WriteLine("Country Code : " + Country.Code);
+                Console.WriteLine("Country PhoneCode " + Country.PhoneCode);
                 
             }
             else
@@ -140,7 +140,6 @@ namespace ContactsConsolApp
                 Console.WriteLine("Country [" + ID + "] Not found!");
             }
         }
-
         static void testFindCountryByName(string Name)
         {
             clsCountry Country = clsCountry.FindByName(Name);
@@ -148,27 +147,32 @@ namespace ContactsConsolApp
             if (Country != null)
             {
                 Console.WriteLine("Country ID : " + Country.ID);
-
+                Console.WriteLine("Country Code : " + Country.Code);
+                Console.WriteLine("Country PhoneCode " + Country.PhoneCode);
             }
             else
             {
                 Console.WriteLine("Country [" + Name + "] Not found!");
             }
         }
-
         static void testAddNewCountry()
         {
             clsCountry Country = new clsCountry();
 
-            Country.Name = "egypt";
+            Country.Name = "France";
+            Country.Code = "FR";
+            Country.PhoneCode = "33";
 
             if (Country.Save())
             {
 
                 Console.WriteLine("Country Added Successfully with id=" + Country.ID);
             }
+            else
+            {
+                Console.WriteLine("failed");
+            }
         }
-
         static void testDeleteCountry(int ID)
         {
             if (clsCountry.isCountryExist(ID))
@@ -188,7 +192,6 @@ namespace ContactsConsolApp
             }
         }
         static void testUpdateCountry(int ID)
-
         {
             clsCountry Country = clsCountry.Find(ID);
 
@@ -196,6 +199,8 @@ namespace ContactsConsolApp
             {
                 //update whatever info you want
                 Country.Name = "Egypt";
+                Country.Code = "EGP";
+                Country.PhoneCode = "234";
 
                 if (Country.Save())
                 {
@@ -218,7 +223,7 @@ namespace ContactsConsolApp
 
             foreach (DataRow row in dataTable.Rows)
             {
-                Console.WriteLine($"{row["CountryID"]},  {row["CountryName"]}");
+                Console.WriteLine($"{row["CountryID"]},  {row["CountryName"]} , {row["Code"]} , {row["PhoneCode"]}");
             }
         }
 
@@ -246,12 +251,21 @@ namespace ContactsConsolApp
         static void Main(string[] args)
         {
 
-            
-           // testDeleteCountry(12);
 
-            ListCountry();
-            testIsCountryExistByID(1);
-            testIsCountryExistByName("Morocco");
+            // testDeleteCountry(12);
+
+            // ListCountry();
+            // testIsCountryExistByID(1);
+            //testIsCountryExistByName("Morocco");
+
+            //testUpdateCountry(8);
+
+            //testAddNewCountry();
+
+            // testDeleteCountry(1008);
+            testFindCountryByID(1007);
+            testFindCountryByName("France");
+
             Console.ReadKey();
 
         }
